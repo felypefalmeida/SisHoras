@@ -1,0 +1,85 @@
+/* Login.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Preenche toda a altura da tela */
+    background-color: #f0f0f0; /* Cor de fundo da página */
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eceaea; /* Fundo branco para o formulário */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    padding: 20px;
+    width: 300px; /* Largura do formulário */
+}
+
+.login-image {
+    max-width: 100%; /* A imagem se ajusta à largura do contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-bottom: 20px; /* Espaçamento abaixo da imagem */
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Largura total do formulário */
+}
+
+.login-input {
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+    padding: 10px; /* Espaçamento interno dos campos */
+    border: 1px solid #ccc; /* Borda leve */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+.login-button {
+    padding: 10px; /* Espaçamento interno do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Bordas arredondadas */
+    background-color: #1e882dea; /* Cor do botão */
+    color: white; /* Cor do texto do botão */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+}
+
+.login-button:hover {
+    background-color: #00b345; /* Cor do botão ao passar o mouse */
+}
+
+.login-links {
+    margin-top: 10px; /* Espaçamento acima dos links */
+    text-align: center; /* Centraliza os links */
+}
+/* src/assets/styles/Login.css */
+
+/* Estilos para a fonte do formulário */
+.login-form {
+    font-family: 'Arial', sans-serif; /* Altere para a fonte desejada */
+    color: #333; /* Cor do texto */
+}
+
+.login-input {
+    font-size: 16px; /* Tamanho da fonte dos inputs */
+    color: #555; /* Cor do texto dos inputs */
+}
+
+.login-button {
+    font-size: 16px; /* Tamanho da fonte do botão */
+    font-weight: bold; /* Negrito */
+    color: white; /* Cor do texto do botão */
+    display: flex;
+    align-items: center; /* Centraliza o ícone verticalmente */
+    justify-content: center; /* Centraliza o ícone e o texto */
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+}
+/* src/assets/styles/Login.css */
+
+
