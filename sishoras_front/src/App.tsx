@@ -5,7 +5,9 @@ import Admin from './pages/Admin'
 import Coordenador from './pages/Coordenador' 
 import Aluno from './pages/Aluno'
 
+
 const App = () => {
+
   return (
     <Router>
       <Routes>
@@ -18,6 +20,7 @@ const App = () => {
       </Routes>
     </Router>
   );
+  
 };
 
 export default App;

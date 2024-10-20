@@ -1,16 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model administrador {
+  id          Int           @id @default(autoincrement())
+  nome        String        @db.VarChar(100)
+  cpf         String        @unique(map: "cpf") @db.VarChar(14)
+  email       String        @unique(map: "email") @db.VarChar(100)
+  senha       String        @db.VarChar(255)
+  usuario_id  Int?
+  usuario     usuario?      @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "administrador_ibfk_1")
+  coordenador coordenador[]
+  curso       curso[]
+  instituicao instituicao[]
+
+  @@index([usuario_id], map: "usuario_id")
 }
 
-model Usuario {
-  id      Int     @id @default(autoincrement())
-  cpf     String  @unique
-  senha   String
-  tipoDeAcesso  String 
-  // Adicione outros campos conforme necessário
+model aluno {
+  id         Int            @id @default(autoincrement())
+  matricula  String         @unique(map: "matricula") @db.VarChar(20)
+  nome       String         @db.VarChar(100)
+  email      String         @unique(map: "email") @db.VarChar(100)
+  senha      String         @db.VarChar(255)
+  curso      String         @db.VarChar(100) // Nome do curso
+  situacao   aluno_situacao
+  usuario_id Int?
+  curso_id   Int?
+  usuario    usuario?       @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "aluno_ibfk_1")
+  cursoRel   curso?         @relation(fields: [curso_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "aluno_ibfk_2") // Relação com o modelo curso
+  atividade  atividade[]
+
+  @@index([curso_id], map: "curso_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+
+model atividade {
+  id        Int                @id @default(autoincrement())
+  descricao String             @db.VarChar(255)
+  qtdHoras  Int
+  situacao  atividade_situacao
+  grupo_id  Int?
+  aluno_id  Int?
+  grupo     grupo?             @relation(fields: [grupo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "atividade_ibfk_1")
+  aluno     aluno?             @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "atividade_ibfk_2")
+
+  @@index([aluno_id], map: "aluno_id")
+  @@index([grupo_id], map: "grupo_id")
+}
+
+model coordenador {
+  id               Int            @id @default(autoincrement())
+  nome             String         @db.VarChar(100)
+  cpf              String         @unique(map: "cpf") @db.VarChar(14)
+  email            String         @unique(map: "email") @db.VarChar(100)
+  senha            String         @db.VarChar(255)
+  usuario_id       Int?
+  administrador_id Int?
+  usuario          usuario?       @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coordenador_ibfk_1")
+  administrador    administrador? @relation(fields: [administrador_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coordenador_ibfk_2")
+  curso            curso[]
+
+  @@index([administrador_id], map: "administrador_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model curso {
+  id                   Int            @id @default(autoincrement())
+  nome                 String         @db.VarChar(100)
+  horas_complementares Int
+  coordenador_id       Int?
+  instituicao_id       Int?
+  administrador_id     Int?
+  aluno                aluno[]
+  coordenador          coordenador?   @relation(fields: [coordenador_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "curso_ibfk_1")
+  instituicao          instituicao?   @relation(fields: [instituicao_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "curso_ibfk_2")
+  administrador        administrador? @relation(fields: [administrador_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "curso_ibfk_3")
+  grupo                grupo[]
+
+  @@index([administrador_id], map: "administrador_id")
+  @@index([coordenador_id], map: "coordenador_id")
+  @@index([instituicao_id], map: "instituicao_id")
+}
+
+model grupo {
+  id        Int         @id @default(autoincrement())
+  descricao String      @db.VarChar(255)
+  qtdHoras  Int
+  maxHoras  Int
+  curso_id  Int?
+  atividade atividade[]
+  curso     curso?      @relation(fields: [curso_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "grupo_ibfk_1")
+
+  @@index([curso_id], map: "curso_id")
+}
+
+model instituicao {
+  id               Int            @id @default(autoincrement())
+  nome             String         @db.VarChar(100)
+  razaosocial      String         @db.VarChar(100)
+  cnpj             String         @unique(map: "cnpj") @db.VarChar(18)
+  administrador_id Int?
+  curso            curso[]
+  administrador    administrador? @relation(fields: [administrador_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "instituicao_ibfk_1")
+
+  @@index([administrador_id], map: "administrador_id")
+}
+
+model usuario {
+  id            Int             @id @default(autoincrement())
+  cpf           String          @unique(map: "Usuario_cpf_key")
+  senha         String
+  tipoDeAcesso  String
+  administrador administrador[]
+  aluno         aluno[]
+  coordenador   coordenador[]
+}
+
+enum atividade_situacao {
+  pendente
+  aprovada
+  rejeitada
+}
+
+enum aluno_situacao {
+  ativo
+  inativo
 }

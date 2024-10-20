@@ -3,6 +3,11 @@ const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const atividadeRouter = require('./routes/atividade');
+const cursoRouter = require('./routes/curso');
+const grupoRouter = require('./routes/grupo');
+
+
 const cors = require('cors');
 
 const app = express();
@@ -29,6 +34,10 @@ testDbConnection();
 // Usar as rotas
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
+app.use('/atividade', atividadeRouter);
+app.use('/curso', cursoRouter);
+app.use('/grupo', grupoRouter);
+
 
 // Iniciar o servidor
 app.listen(PORT, () => {

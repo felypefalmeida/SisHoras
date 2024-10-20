@@ -12,11 +12,31 @@ router.post('/login', async (req, res) => {
         // Verifica se o usuário existe com base no CPF
         const usuario = await prisma.usuario.findUnique({ 
             where: { cpf }, 
+            include: {
+                administrador:true,
+                aluno: true, // Supondo que 'aluno' é o nome da relação com a tabela 'aluno'
+                coordenador: true, // Se houver uma tabela separada para coordenadores
+            }
         });
-        console.log('Usuário encontrado:', usuario); 
-        // Verificando se o usuário foi encontrado e se a senha  dele está correta
+
+        // Verificando se o usuário foi encontrado e se a senha dele está correta
         if (usuario && usuario.senha === senha) {
-            res.json({ message: 'Login realizado com sucesso!', tipoDeAcesso: usuario.tipoDeAcesso });
+            // Retorna os dados do usuário
+            console.log('Usuário encontrado:', usuario);
+            const responseData = {
+                message: 'Login realizado com sucesso!',
+                tipoDeAcesso: usuario.tipoDeAcesso,
+                id: usuario.aluno[0].id,
+                idCurso: usuario.aluno[0].curso_id,
+                nome: usuario.aluno.length > 0 ? usuario.aluno[0].nome 
+                : usuario.coordenador.length > 0 ? usuario.coordenador[0].nome 
+                : usuario.administrador.length > 0 ? usuario.administrador[0].nome // Adiciona o nome do administrador
+                : null,
+                cpf: usuario.cpf,
+            };
+            
+            res.json(responseData);
+
         } else {
             res.status(401).json({ message: 'Credenciais inválidas' });
         }        

@@ -1,0 +1,32 @@
+/* Header fixo com espaçamento adequado */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Espaço entre os elementos do header */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    padding: 10px 20px; /* Ajusta o espaçamento interno */
+    background-color: #4a7cb5; /* Cor de fundo do header */
+    color: white; /* Cor do texto */
+    position: fixed; /* Header fixo no topo */
+    top: 0; /* Fixa no topo da página */
+    left: 0; /* Estica até a esquerda */
+    right: 0; /* Estica até a direita */
+    z-index: 1000; /* Garante que o header fique sobre outros elementos */
+}
+
+/* Nome do usuário no header */
+.nomeP {
+    margin: 0; /* Remove margens indesejadas */
+    font-size: 24px; /* Ajusta o tamanho da fonte */
+    font-weight: bold; /* Deixa o nome em negrito */
+}
+
+/* Saudação no header */
+.saudacao {
+    margin: 0; /* Remove margens indesejadas */
+    font-size: 20px; /* Ajusta o tamanho da saudação */
+}
+
+/* Para garantir que o conteúdo principal não seja sobreposto pelo header fixo */
+body {
+    padding-top: 60px; /* Compensa a altura do header fixo */
+}

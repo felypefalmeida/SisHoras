@@ -7,44 +7,58 @@ import axios from 'axios';
 const Login = () => {
     const [cpf, setCpf] = useState('');
     const [senha, setSenha] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [usuarioNome, setUsuarioNome] = useState('');
+
+
 
     const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault(); // Evita o recarregamento da página
+        event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3000/auth/login', { // Altere para a URL do seu backend
+            const response = await axios.post('http://localhost:3000/auth/login', {
                 cpf,
                 senha
             });
-            console.log('Login bem-sucedido:', response.data);
-            // Aqui você pode redirecionar o usuário ou armazenar o token
-            // Se o login for bem-sucedido, obtenha os dados do usuário
-            const { tipoDeAcesso} = response.data;
-            if (tipoDeAcesso === 'root') {
-                // Redirecionar para a página do administrador
-                window.location.href = '/admin';
-            } else if (tipoDeAcesso === 'coordenador') {
-                // Validando o CPF (precisa ter 11 dígitos)
-                if (cpf.length === 11) {
+            const { tipoDeAcesso, nome,id,idCurso } = response.data; // Obter o nome
+
+            if (nome) {
+                setUsuarioNome(nome.split(' ')[0]); // Pega o primeiro nome
+                // Armazenar o nome completo no localStorage
+                localStorage.setItem('usuarioNome', nome);
+                localStorage.setItem('usuarioId', id);
+                localStorage.setItem('cursoId',idCurso); 
+            }
+
+            // Limpar mensagem de erro após login bem-sucedido
+            setErrorMessage('');
+            // Redirecionamento conforme o tipo de acesso
+            setTimeout(() => {
+                if (tipoDeAcesso === 'root') {
+                    window.location.href = '/admin';
+                } else if (tipoDeAcesso === 'coordenador') {
                     window.location.href = '/coordenador';
+                } else if (tipoDeAcesso === 'aluno') {           
+                    window.location.href = '/aluno';                
                 } else {
-                    alert('CPF inválido para coordenador');
+                    setErrorMessage('Tipo de acesso desconhecido');
                 }
-            } else if (tipoDeAcesso === 'aluno') {
-                // Validando a matrícula (precisa ter 14 dígitos)
-                if (cpf.length === 14) {
-                    window.location.href = '/aluno';
-                } else {
-                    alert('Matrícula inválida para aluno');
-                }
-            } else {
-                // Caso o tipo de acesso não seja reconhecido
-                alert('Tipo de acesso desconhecido');
-            }      
+            }, 1000);
         } catch (error) {
             console.error('Erro ao fazer login:', error);
-            alert('Falha no login. Verifique suas credenciais.');
+            setErrorMessage('Falha no login. Verifique suas credenciais.');
         }
+    };
+
+    // Reseta a mensagem de erro quando o usuário digita novamente no CPF ou Senha
+    const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCpf(e.target.value);
+        if (errorMessage) setErrorMessage(''); // Limpa a mensagem de erro quando o usuário começa a digitar
+    };
+
+    const handleSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSenha(e.target.value);
+        if (errorMessage) setErrorMessage(''); // Limpa a mensagem de erro quando o usuário começa a digitar
     };
 
     return (
@@ -56,15 +70,16 @@ const Login = () => {
                     placeholder="Matricula-Aluno / Cpf-Coordenador"
                     className="login-input"
                     value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
+                    onChange={handleCpfChange} // Reset de erro no CPF
                 />
                 <input
                     type="password"
                     placeholder="Senha"
                     className="login-input"
                     value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
+                    onChange={handleSenhaChange} // Reset de erro na senha
                 />
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <button type="submit" className="login-button">
                     <i className="fa fa-sign-in" aria-hidden="true"></i>Entrar
                 </button>

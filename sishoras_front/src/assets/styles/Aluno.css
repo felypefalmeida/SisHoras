@@ -1,0 +1,93 @@
+/* Menu lateral fixo abaixo do header */
+.menu-lateral {
+    position: fixed; /* Fixa o menu na lateral esquerda */
+    top: 50px; /* Começa logo abaixo do header, ajustando conforme a altura do header */
+    left: 0; /* Ancorado à esquerda */
+    width: 200px; /* Define a largura do menu */
+    height: calc(100vh - 60px); /* Ocupa a altura total da tela, menos a altura do header */
+    background-color: #333; /* Cor de fundo do menu */
+    color: white; /* Cor do texto no menu */
+    padding-top:20px; /* Espaço no topo dentro do menu */
+    z-index: 999; /* Garante que o menu fique sobre o conteúdo */
+}
+
+.menu-lateral ul {
+    list-style: none; /* Remove bullets da lista */
+    padding: 0; /* Remove padding da lista */
+}
+
+.menu-lateral li {
+    padding: 15px 20px; /* Ajusta o padding dos itens do menu */
+    cursor: pointer; /* Cursor pointer para os itens do menu */
+    color: white; /* Cor dos textos */
+}
+
+.menu-lateral li:hover {
+    background-color: #575757; /* Cor de fundo ao passar o mouse */
+}
+
+/* Ajuste para o conteúdo principal para evitar sobreposição com o menu */
+.conteudo-principal {
+    margin-left: 200px; /* Compensa a largura do menu lateral */
+    padding: 20px; /* Espaçamento interno do conteúdo */
+}
+
+.grafico-container {
+    margin-top: 0; /* Espaçamento entre o título e o gráfico */
+}
+
+/* Aluno.css */
+
+.aluno-container {
+    display: flex;
+    flex-direction: column; /* Coloca o header e menu na vertical */
+}
+
+
+.conteudo-principal {
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Adicione espaço para o header fixo */
+}
+
+.grafico-e-listagem {
+    display: flex; /* Exibe gráfico e listagem lado a lado */
+    justify-content: space-between; /* Espaça os elementos */
+    margin-top: 20px; /* Espaço acima da seção */
+}
+
+.grafico-container {
+    width: 50%; /* Ajusta a largura do gráfico */
+}
+
+.lista-container {
+    width: 45%; /* Ajusta a largura da listagem */
+    margin-left: 20px; /* Espaço entre o gráfico e a listagem */
+}
+
+.lista-atividades {
+    list-style-type: none; /* Remove marcadores da lista */
+    padding: 0; /* Remove preenchimento */
+}
+
+.item-atividade {
+    margin-bottom: 10px; /* Espaço entre os itens da lista */
+}
+.barra-progresso-container {
+    width: 100%;
+    height: 30px; /* Ajuste conforme necessário */
+    background-color: #e0e0e0; /* Cor de fundo da barra */
+    border-radius: 5px; /* Bordas arredondadas */
+    margin: 20px 0; /* Margem superior e inferior */
+    position: relative;
+}
+
+.barra-progresso {
+    height: 100%;
+    background-color: #4CAF50; /* Cor da barra de progresso */
+    text-align: center; /* Centraliza o texto dentro da barra */
+    line-height: 30px; /* Para centralizar o texto verticalmente */
+    color: white; /* Cor do texto */
+    border-radius: 5px; /* Bordas arredondadas */
+    transition: width 0.5s; /* Transição suave ao mudar a largura */
+}
